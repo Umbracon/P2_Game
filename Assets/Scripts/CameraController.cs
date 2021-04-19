@@ -1,17 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
-{
-    [SerializeField] float mouseSensitivity = 100f;
+public class CameraController : MonoBehaviour {
+    [SerializeField] float speed = 0.6f;
 
-    [SerializeField] Transform player; 
+    private float y;
 
-    void Update()
-    {
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+    private void Update() {
+        y = Input.GetAxis("Horizontal");
 
-        player.Rotate(Vector3.up * mouseX);
+        if (Mathf.Abs(y) > 0.1)
+            transform.Rotate(0, -y * speed, 0);
     }
 }
