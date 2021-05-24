@@ -33,14 +33,18 @@ namespace Rope
 
             fragments = new GameObject[fragmentCount];
 
-            var position = Vector3.zero;
+            //var position = Vector3.zero;
+            // --- modification ---
+            var position = transform.position;
 
             for (var i = 0; i < fragmentCount; i++)
             {
                 fragments[i] = Instantiate(fragmentPrefab, position, Quaternion.identity);
                 fragments[i].transform.SetParent(transform);
 
-                var joint = fragments[i].GetComponent<SpringJoint>();
+                //var joint = fragments[i].GetComponent<SpringJoint>();
+                // --- modification ---
+                var joint = fragments[i].GetComponent<FixedJoint>();
                 if (i > 0)
                 {
                     joint.connectedBody = fragments[i - 1].GetComponent<Rigidbody>();
@@ -70,7 +74,9 @@ namespace Rope
             {
                 if (i <= fragmentCount - activeFragmentCount)
                 {
-                    fragments[i].GetComponent<Rigidbody>().position = Vector3.zero;
+                    //fragments[i].GetComponent<Rigidbody>().position = Vector3.zero;
+                    // --- modification ---
+                    fragments[i].GetComponent<Rigidbody>().position = transform.position;
                     fragments[i].GetComponent<Rigidbody>().isKinematic = true;
                 }
                 else

@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10d5073a0c3633c42a910836fe57061c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fragmentPrefab: {fileID: 100000, guid: 3c9291a9e8f2ba04e96860710d1f70c0, type: 3}
-  interval: {x: 0, y: 0, z: 0.25}
+  fragmentPrefab: {fileID: 5139500297769546053, guid: 929a4535f798c8d4b845af50d99cc01f, type: 3}
   fragmentCount: 80
+  interval: {x: 0, y: 0, z: 0.25}
 --- !u!120 &2704824120275040906
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -62,10 +62,11 @@ LineRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 03f10357f38feb04d824a665cb7b0739, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
