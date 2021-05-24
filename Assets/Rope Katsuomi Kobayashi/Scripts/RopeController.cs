@@ -34,7 +34,6 @@ namespace Rope
             fragments = new GameObject[fragmentCount];
 
             //var position = Vector3.zero;
-            // --- modification ---
             var position = transform.position;
 
             for (var i = 0; i < fragmentCount; i++)
@@ -43,7 +42,6 @@ namespace Rope
                 fragments[i].transform.SetParent(transform);
 
                 //var joint = fragments[i].GetComponent<SpringJoint>();
-                // --- modification ---
                 var joint = fragments[i].GetComponent<FixedJoint>();
                 if (i > 0)
                 {
@@ -52,6 +50,9 @@ namespace Rope
 
                 position += interval;
             }
+
+            // ---
+            fragments[fragmentCount - 1].AddComponent<SnakeHead>();
 
             var lineRenderer = GetComponent<LineRenderer>();
             lineRenderer.positionCount = (fragmentCount - 1) * splineFactor + 1;
@@ -75,7 +76,6 @@ namespace Rope
                 if (i <= fragmentCount - activeFragmentCount)
                 {
                     //fragments[i].GetComponent<Rigidbody>().position = Vector3.zero;
-                    // --- modification ---
                     fragments[i].GetComponent<Rigidbody>().position = transform.position;
                     fragments[i].GetComponent<Rigidbody>().isKinematic = true;
                 }

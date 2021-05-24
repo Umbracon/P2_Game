@@ -38,7 +38,7 @@ namespace Rope
                 var point = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
                 var dest = Camera.main.ScreenToWorldPoint(point) + offset;
 
-                if (dest.magnitude < 4.0f)
+                if (dest.magnitude < 6.0f)
                 {
                     rigid.AddForce((dest - rigid.position) * 50f);
                     rigid.velocity *= 0.8f;
