@@ -1,117 +1,123 @@
 using UnityEngine;
 
-namespace Rope
+public class RopeController : MonoBehaviour
 {
-    public class RopeController : MonoBehaviour
+    [SerializeField]
+    GameObject fragmentPrefab;
+
+    [SerializeField]
+    GameObject junctionPrefab;
+
+    [SerializeField]
+    int fragmentCount = 80;
+
+    [SerializeField]
+    Vector3 interval = new Vector3(0f, 0f, 0.25f);
+
+    GameObject[] fragments;
+
+    //float activeFragmentCount;
+
+    Vector3 position;
+
+    float[] xPositions;
+    float[] yPositions;
+    float[] zPositions;
+
+    CatmullRomSpline splineX;
+    CatmullRomSpline splineY;
+    CatmullRomSpline splineZ;
+
+    int splineFactor = 4;
+
+    void Start()
     {
-        [SerializeField]
-        GameObject fragmentPrefab;
+        //activeFragmentCount = fragmentCount;
 
-        [SerializeField]
-        int fragmentCount = 80;
+        fragments = new GameObject[fragmentCount];
 
-        [SerializeField]
-        Vector3 interval = new Vector3(0f, 0f, 0.25f);
+        //var position = Vector3.zero;
+        position = transform.position;
 
-        GameObject[] fragments;
-
-        float activeFragmentCount;
-
-        float[] xPositions;
-        float[] yPositions;
-        float[] zPositions;
-
-        CatmullRomSpline splineX;
-        CatmullRomSpline splineY;
-        CatmullRomSpline splineZ;
-
-        int splineFactor = 4;
-
-        void Start()
+        for (var i = 0; i < fragmentCount; i++)
         {
-            activeFragmentCount = fragmentCount;
+            fragments[i] = Instantiate(fragmentPrefab, position, Quaternion.identity);
+            fragments[i].transform.SetParent(transform);
 
-            fragments = new GameObject[fragmentCount];
-
-            //var position = Vector3.zero;
-            var position = transform.position;
-
-            for (var i = 0; i < fragmentCount; i++)
+            //var joint = fragments[i].GetComponent<SpringJoint>();
+            var joint = fragments[i].GetComponent<FixedJoint>();
+            if (i > 0)
             {
-                fragments[i] = Instantiate(fragmentPrefab, position, Quaternion.identity);
-                fragments[i].transform.SetParent(transform);
-
-                //var joint = fragments[i].GetComponent<SpringJoint>();
-                var joint = fragments[i].GetComponent<FixedJoint>();
-                if (i > 0)
-                {
-                    joint.connectedBody = fragments[i - 1].GetComponent<Rigidbody>();
-                }
-
-                position += interval;
+                joint.connectedBody = fragments[i - 1].GetComponent<Rigidbody>();
             }
 
-            // ---
-            fragments[fragmentCount - 1].AddComponent<SnakeHead>();
+            if (i == fragmentCount - 1)
+            {
+                fragments[i].AddComponent<SnakeHead>();
+                AttachHeadJunction(i);
+            }
 
-            var lineRenderer = GetComponent<LineRenderer>();
-            lineRenderer.positionCount = (fragmentCount - 1) * splineFactor + 1;
-
-            xPositions = new float[fragmentCount];
-            yPositions = new float[fragmentCount];
-            zPositions = new float[fragmentCount];
-
-            splineX = new CatmullRomSpline(xPositions);
-            splineY = new CatmullRomSpline(yPositions);
-            splineZ = new CatmullRomSpline(zPositions);
+            position += interval;
         }
 
-        void Update()
-        {
-            var vy = Input.GetAxisRaw("Vertical") * 20f * Time.deltaTime;
-            activeFragmentCount = Mathf.Clamp(activeFragmentCount + vy, 0, fragmentCount);
+        var lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.positionCount = (fragmentCount - 1) * splineFactor + 1;
 
-            for (var i = 0; i < fragmentCount; i++)
-            {
-                if (i <= fragmentCount - activeFragmentCount)
-                {
-                    //fragments[i].GetComponent<Rigidbody>().position = Vector3.zero;
-                    fragments[i].GetComponent<Rigidbody>().position = transform.position;
-                    fragments[i].GetComponent<Rigidbody>().isKinematic = true;
-                }
-                else
-                {
-                    fragments[i].GetComponent<Rigidbody>().isKinematic = false;
-                }
-            }
+        xPositions = new float[fragmentCount];
+        yPositions = new float[fragmentCount];
+        zPositions = new float[fragmentCount];
+
+        splineX = new CatmullRomSpline(xPositions);
+        splineY = new CatmullRomSpline(yPositions);
+        splineZ = new CatmullRomSpline(zPositions);
+    }
+
+    //void Update()
+    //{
+    //    var vy = Input.GetAxisRaw("Vertical") * 20f * Time.deltaTime;
+    //    activeFragmentCount = Mathf.Clamp(activeFragmentCount + vy, 0, fragmentCount);
+
+    //    for (var i = 0; i < fragmentCount; i++)
+    //    {
+    //        if (i <= fragmentCount - activeFragmentCount)
+    //        {
+    //            //fragments[i].GetComponent<Rigidbody>().position = Vector3.zero;
+    //            fragments[i].GetComponent<Rigidbody>().position = transform.position;
+    //            fragments[i].GetComponent<Rigidbody>().isKinematic = true;
+    //        }
+    //        else
+    //        {
+    //            fragments[i].GetComponent<Rigidbody>().isKinematic = false;
+    //        }
+    //    }
+    //}
+
+    void LateUpdate()
+    {
+        var lineRenderer = GetComponent<LineRenderer>();
+
+        for (var i = 0; i < fragmentCount; i++)
+        {
+            var position = fragments[i].transform.position;
+            xPositions[i] = position.x;
+            yPositions[i] = position.y;
+            zPositions[i] = position.z;
         }
 
-        void LateUpdate()
+        for (var i = 0; i < (fragmentCount - 1) * splineFactor + 1; i++)
         {
-            // Copy rigidbody positions to the line renderer
-            var lineRenderer = GetComponent<LineRenderer>();
-
-            // No interpolation
-            //for (var i = 0; i < fragmentNum; i++)
-            //{
-            //    renderer.SetPosition(i, fragments[i].transform.position);
-            //}
-
-            for (var i = 0; i < fragmentCount; i++)
-            {
-                var position = fragments[i].transform.position;
-                xPositions[i] = position.x;
-                yPositions[i] = position.y;
-                zPositions[i] = position.z;
-            }
-
-            for (var i = 0; i < (fragmentCount - 1) * splineFactor + 1; i++)
-            {
-                lineRenderer.SetPosition(i, new Vector3(
-                    splineX.GetValue(i / (float) splineFactor),
-                    splineY.GetValue(i / (float) splineFactor),
-                    splineZ.GetValue(i / (float) splineFactor)));
-            }
+            lineRenderer.SetPosition(i, new Vector3(
+                splineX.GetValue(i / (float)splineFactor),
+                splineY.GetValue(i / (float)splineFactor),
+                splineZ.GetValue(i / (float)splineFactor)));
         }
+    }
+
+    void AttachHeadJunction(int parentIndex)
+    {
+        var parentTransform = fragments[parentIndex].transform;
+        var junction = Instantiate(junctionPrefab, position, Quaternion.identity);
+
+        junction.transform.SetParent(parentTransform);
     }
 }

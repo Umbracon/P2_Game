@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Deathzone
   - Finish Message
+  - Attachable
   layers:
   - Default
   - TransparentFX

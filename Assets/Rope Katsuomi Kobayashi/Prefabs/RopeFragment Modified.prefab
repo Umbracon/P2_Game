@@ -78,9 +78,9 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 0.2
       objectReference: {fileID: 0}
-    - target: {fileID: 14500000, guid: 3c9291a9e8f2ba04e96860710d1f70c0, type: 3}
-      propertyPath: m_Spring
-      value: 200
+    - target: {fileID: 13500000, guid: 3c9291a9e8f2ba04e96860710d1f70c0, type: 3}
+      propertyPath: m_Radius
+      value: 0.09
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 14500000, guid: 3c9291a9e8f2ba04e96860710d1f70c0, type: 3}

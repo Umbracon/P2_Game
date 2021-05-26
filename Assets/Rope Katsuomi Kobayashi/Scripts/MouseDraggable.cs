@@ -1,49 +1,64 @@
 using UnityEngine;
 
-namespace Rope
+[RequireComponent(typeof(Rigidbody))]
+public class MouseDraggable : MonoBehaviour
 {
-    [RequireComponent(typeof(Rigidbody))]
-    public class MouseDraggable : MonoBehaviour
+    Vector3 screenPoint;
+    Vector3 offset;
+    Vector3 snakeRoot;
+    Vector3 destPoint;
+
+    bool dragging;  
+
+    Rigidbody rigid;
+
+    void Awake()
     {
-        Vector3 screenPoint;
-        Vector3 offset;
+        rigid = GetComponent<Rigidbody>();
+    }
 
-        bool dragging;
+    void Start()
+    {
+        snakeRoot = transform.parent.position;
+    }
 
-        Rigidbody rigid;
+    void OnMouseDown()
+    {
+        screenPoint = Camera.main.WorldToScreenPoint(transform.position);
+        offset = transform.position - Camera.main.ScreenToWorldPoint(
+            new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
 
-        void Awake()
+        dragging = true;
+    }
+
+    void OnMouseUp()
+    {
+        dragging = false;
+    }
+
+    void FixedUpdate()
+    {
+        if (dragging)
         {
-            rigid = GetComponent<Rigidbody>();
-        }
+            var point = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
+            destPoint = Camera.main.ScreenToWorldPoint(point) + offset;
 
-        void OnMouseDown()
-        {
-            screenPoint = Camera.main.WorldToScreenPoint(transform.position);
-            offset = transform.position - Camera.main.ScreenToWorldPoint(
-                new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
+            rigid.AddForce((destPoint - rigid.position) * 50f);
+            rigid.velocity *= 0.8f;
 
-            dragging = true;
-        }
-
-        void OnMouseUp()
-        {
-            dragging = false;
-        }
-
-        void FixedUpdate()
-        {
-            if (dragging)
+            if (Vector3.Distance(destPoint, snakeRoot) > 4.0f)
             {
-                var point = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-                var dest = Camera.main.ScreenToWorldPoint(point) + offset;
-
-                if (dest.magnitude < 6.0f)
-                {
-                    rigid.AddForce((dest - rigid.position) * 50f);
-                    rigid.velocity *= 0.8f;
-                }
+                dragging = false;
             }
         }
     }
+
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawSphere(snakeRoot, 0.06f);
+
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawSphere(destPoint, 0.06f);
+    //}
 }
