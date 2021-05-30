@@ -78,6 +78,10 @@ PrefabInstance:
       propertyPath: m_Mass
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 5400000, guid: 3c9291a9e8f2ba04e96860710d1f70c0, type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 13500000, guid: 3c9291a9e8f2ba04e96860710d1f70c0, type: 3}
       propertyPath: m_Radius
       value: 0.09

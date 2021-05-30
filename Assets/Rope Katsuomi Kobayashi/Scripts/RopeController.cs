@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class RopeController : MonoBehaviour
@@ -16,8 +17,6 @@ public class RopeController : MonoBehaviour
 
     GameObject[] fragments;
 
-    //float activeFragmentCount;
-
     Vector3 position;
 
     float[] xPositions;
@@ -30,22 +29,36 @@ public class RopeController : MonoBehaviour
 
     int splineFactor = 4;
 
+    public IEnumerator currCoroutine;
+
     void Start()
     {
-        //activeFragmentCount = fragmentCount;
-
         fragments = new GameObject[fragmentCount];
 
-        //var position = Vector3.zero;
         position = transform.position;
 
+        InstantiateFragments();
+        CountSplines();
+
+        currCoroutine = CoilSnake(0f);
+        StartCoroutine(currCoroutine);
+    }
+
+
+    void LateUpdate()
+    {
+        DrawLines();
+    }
+
+    void InstantiateFragments()
+    {
         for (var i = 0; i < fragmentCount; i++)
         {
             fragments[i] = Instantiate(fragmentPrefab, position, Quaternion.identity);
             fragments[i].transform.SetParent(transform);
 
-            //var joint = fragments[i].GetComponent<SpringJoint>();
             var joint = fragments[i].GetComponent<FixedJoint>();
+
             if (i > 0)
             {
                 joint.connectedBody = fragments[i - 1].GetComponent<Rigidbody>();
@@ -59,7 +72,34 @@ public class RopeController : MonoBehaviour
 
             position += interval;
         }
+    }
 
+    public IEnumerator CoilSnake(float seconds)
+    {
+        for (var i = 0; i < fragmentCount; i++)
+        {
+            fragments[i].GetComponent<SphereCollider>().enabled = false;
+            fragments[i].GetComponent<Rigidbody>().isKinematic = true;
+            fragments[i].GetComponent<Rigidbody>().position = transform.position;
+
+            yield return new WaitForSeconds(seconds);
+        }
+    }
+
+    public IEnumerator UncoilSnake(float seconds)
+    {
+        for (var i = 0; i < fragmentCount; i++)
+        {
+            fragments[i].GetComponent<Rigidbody>().isKinematic = false;
+
+            yield return new WaitForSeconds(seconds);
+        }
+
+        Invoke("ActivateColliders", 0.6f);
+    }
+
+    void CountSplines()
+    {
         var lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = (fragmentCount - 1) * splineFactor + 1;
 
@@ -72,27 +112,8 @@ public class RopeController : MonoBehaviour
         splineZ = new CatmullRomSpline(zPositions);
     }
 
-    //void Update()
-    //{
-    //    var vy = Input.GetAxisRaw("Vertical") * 20f * Time.deltaTime;
-    //    activeFragmentCount = Mathf.Clamp(activeFragmentCount + vy, 0, fragmentCount);
 
-    //    for (var i = 0; i < fragmentCount; i++)
-    //    {
-    //        if (i <= fragmentCount - activeFragmentCount)
-    //        {
-    //            //fragments[i].GetComponent<Rigidbody>().position = Vector3.zero;
-    //            fragments[i].GetComponent<Rigidbody>().position = transform.position;
-    //            fragments[i].GetComponent<Rigidbody>().isKinematic = true;
-    //        }
-    //        else
-    //        {
-    //            fragments[i].GetComponent<Rigidbody>().isKinematic = false;
-    //        }
-    //    }
-    //}
-
-    void LateUpdate()
+    void DrawLines()
     {
         var lineRenderer = GetComponent<LineRenderer>();
 
@@ -119,5 +140,13 @@ public class RopeController : MonoBehaviour
         var junction = Instantiate(junctionPrefab, position, Quaternion.identity);
 
         junction.transform.SetParent(parentTransform);
+    }
+
+    void ActivateColliders() 
+    {
+        for (var i = 0; i < fragmentCount; i++)
+        {
+            fragments[i].GetComponent<SphereCollider>().enabled = true;
+        }
     }
 }
