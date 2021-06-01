@@ -29,7 +29,7 @@ public class RopeController : MonoBehaviour
 
     int splineFactor = 4;
 
-    public IEnumerator currCoroutine;
+    IEnumerator currCoroutine;
 
     void Start()
     {
@@ -95,7 +95,7 @@ public class RopeController : MonoBehaviour
             yield return new WaitForSeconds(seconds);
         }
 
-        Invoke("ActivateColliders", 0.6f);
+        Invoke("ActivateColliders", (0.02f));
     }
 
     void CountSplines()

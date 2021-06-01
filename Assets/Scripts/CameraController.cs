@@ -2,25 +2,25 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] float rotationSpeed = 0.6f;
-    [SerializeField] float translationSpeed = 0.01f;
+    [SerializeField] float yRotationSpeed = 0.6f;
+    [SerializeField] float zRotationSpeed = 2f;
 
-    private float x;
-    private float y;
+    float horizontal;
+    float vertical;
 
-    private void Update()
+    void Update()
     {
-        x = Input.GetAxis("Horizontal");
-        y = Input.GetAxis("Vertical");
+        horizontal = Input.GetAxis("Horizontal");
+        vertical = Input.GetAxis("Vertical");
 
-        if (Mathf.Abs(x) > 0.1f)
+        if (Mathf.Abs(horizontal) > 0.1f)
         {
-            transform.Rotate(0, -x * rotationSpeed, 0);
+            transform.Rotate(new Vector3(0, -horizontal * yRotationSpeed, 0), Space.World);
         }
 
-        if (Mathf.Abs(y) > 0.1f)
+        if (Mathf.Abs(vertical) > 0.1f)
         {
-            transform.Rotate(0, 0, -y * translationSpeed);
+            transform.Rotate(new Vector3(0, 0, vertical + zRotationSpeed), Space.Self);
         }
     }
 }

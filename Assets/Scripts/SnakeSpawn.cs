@@ -30,14 +30,14 @@ public class SnakeSpawn : MonoBehaviour
     {
         if (uncoiledSnake != null)
         {
-            StartCoroutine(uncoiledSnake.CoilSnake(1f / 60f));
+            StartCoroutine(uncoiledSnake.CoilSnake(1f/60f));
         }
 
         uncoiledSnake = GetComponentInChildren<RopeController>();
 
-        if (uncoiledSnake != GetComponentInChildren<RopeController>())
-        {
-            StartCoroutine(uncoiledSnake.UncoilSnake(1f / 60f));
-        }
+        //if (uncoiledSnake != GetComponentInChildren<RopeController>())
+        //{
+            StartCoroutine(uncoiledSnake.UncoilSnake(1f/60f));
+        //}
     }
 }
