@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelQualifier : MonoBehaviour {
@@ -7,22 +5,27 @@ public class LevelQualifier : MonoBehaviour {
     [SerializeField] GameObject panel;
 
     Rigidbody rb;
+    SceneController sceneController;
 
-    static bool isCompleted = false;
-     
-    private void OnTriggerEnter(Collider other) {
-        if (other.tag == "Player") {
-            rb = other.GetComponent<Rigidbody>();
-        }
+    void Start()
+    {
+        sceneController = FindObjectOfType<SceneController>();
     }
 
-    private void OnTriggerStay(Collider other) {
-        if (rb.velocity.magnitude <= minVelocityMagnitude && !isCompleted) {
-            ObstacleRotator.isRotatingEnabled = false;
+    private void OnTriggerEnter(Collider other)
+    {
+            rb = other.GetComponent<Rigidbody>();
+    }
+
+    private void OnTriggerStay(Collider other) 
+    {
+        if (rb.velocity.magnitude <= minVelocityMagnitude && 
+            !sceneController.isLevelCompleted && 
+            other.CompareTag("Player")) 
+        {           
             panel.SetActive(true);
-            isCompleted = true;
+            sceneController.isLevelCompleted = true;
         }
-        
     }
 }
 

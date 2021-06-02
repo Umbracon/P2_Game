@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water
-  m_Shader: {fileID: -6465566751694194690, guid: 82cba73daeae84548baaf254bf5535b5, type: 3}
+  m_Name: Hovered Vertex Paint
+  m_Shader: {fileID: -6465566751694194690, guid: 82ed51cf0a2344e49a39eae154d574ca, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -32,9 +32,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - Vector1_0e6163c16204402ca7f32075d61f9e57: 0.5
-    - Vector1_97ee99d8bfbf42578e33d8dc1225d560: 0.7
-    - Vector1_fc3c4a4bc74246fd8ba9769f745a1137: 1
-    m_Colors:
-    - Color_799b1e40ca3a4d3e87ded96edcdc49a8: {r: 0.25872195, g: 0.9622642, b: 0.9472527, a: 0}
+    - Vector1_178eefc043f24605976defb5353ccd66: 0.5
+    - Vector1_78889d1729b0441d9c4c7b8bcfd0b73f: 1.2
+    - Vector1_9ed1e6f104a5424fb83943c5520ef12b: 1
+    - Vector1_deddb35251834c8584e52404bcc72003: 4
+    m_Colors: []
   m_BuildTextureStacks: []

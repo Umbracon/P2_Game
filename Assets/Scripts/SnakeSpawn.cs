@@ -3,41 +3,50 @@ using UnityEngine;
 public class SnakeSpawn : MonoBehaviour
 {
     [SerializeField]
-    Material destMaterial;
+    Material hoverMaterial;
 
-    Material initMaterial;
+    Material defaultMaterial;
+    SceneController sceneController;
+    RopeController snakeSpawnModule;
 
-    static RopeController uncoiledSnake;
+    bool isSnakeUncoiled = false;
 
     void Start()
     {
-        uncoiledSnake = null;
-
-        initMaterial = GetComponent<MeshRenderer>().material;
+        snakeSpawnModule = GetComponentInChildren<RopeController>();
+        sceneController = FindObjectOfType<SceneController>();
+        defaultMaterial = GetComponent<MeshRenderer>().material;
     }
 
     void OnMouseOver()
     {
-        GetComponent<MeshRenderer>().material = destMaterial;
+        GetComponent<MeshRenderer>().material = hoverMaterial;
     }
 
     void OnMouseExit()
     {
-        GetComponent<MeshRenderer>().material = initMaterial;
+        GetComponent<MeshRenderer>().material = defaultMaterial;
     }
 
     void OnMouseDown()
     {
-        if (uncoiledSnake != null)
+        if (isSnakeUncoiled)
         {
-            StartCoroutine(uncoiledSnake.CoilSnake(1f/60f));
+            StartCoroutine(snakeSpawnModule.CoilSnake(1f / 60f));
+            isSnakeUncoiled = false;
+
+        } else
+        {
+            SnakeSpawn uncoiledSnake = sceneController.uncoiledSnake;
+            if (uncoiledSnake != null)
+            {
+                StartCoroutine(uncoiledSnake.snakeSpawnModule.CoilSnake(1f / 60f));
+                uncoiledSnake.isSnakeUncoiled = false;
+            }
+
+            StartCoroutine(snakeSpawnModule.UncoilSnake(1f / 60f));
+            isSnakeUncoiled = true;
+            sceneController.uncoiledSnake = this;
         }
-
-        uncoiledSnake = GetComponentInChildren<RopeController>();
-
-        //if (uncoiledSnake != GetComponentInChildren<RopeController>())
-        //{
-            StartCoroutine(uncoiledSnake.UncoilSnake(1f/60f));
-        //}
     }
 }

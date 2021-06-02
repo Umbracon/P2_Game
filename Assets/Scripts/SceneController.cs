@@ -1,23 +1,23 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneController : MonoBehaviour {
+public class SceneController : MonoBehaviour
+{
+    [HideInInspector]
+    public SnakeSpawn uncoiledSnake = null;
 
-    public static bool anyObstaclePlaced;
-    public static bool isSimulationRunning;
+    public bool isLevelCompleted = false;
 
-    void OnEnable() {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
-        anyObstaclePlaced = false;
-        isSimulationRunning = false;
+    void Update()
+    {
+        if (isLevelCompleted && Input.anyKeyDown) 
+        {
+            SceneManager.LoadSceneAsync("Main Menu");
+        }
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        PhysicsController.DisablePhysics();
-    }
-
-    public void ReloadScene() {
+    public void ReloadScene()
+    {
         SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
     }
 }

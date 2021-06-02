@@ -17,12 +17,8 @@ public class SnakeHead : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-
-
-        if (collision.transform.tag == "Attachable" && !bitten)
-        {
-            Debug.Log("ujebalem");
-
+        if ((collision.transform.CompareTag("Attachable") || collision.transform.CompareTag("Player")) && !bitten)
+        { 
             FixedJoint[] joints = gameObject.GetComponentsInChildren<FixedJoint>();
             joint = joints[1];
             joint.connectedBody = collision.transform.GetComponent<Rigidbody>();

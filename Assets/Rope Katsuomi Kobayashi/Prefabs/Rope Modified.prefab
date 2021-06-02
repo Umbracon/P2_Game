@@ -36,9 +36,13 @@ PrefabInstance:
       value: Rope Modified
       objectReference: {fileID: 0}
     - target: {fileID: 2704824120275040906, guid: 19941e46572630640bcad89012bec10d, type: 3}
-      propertyPath: m_Loop
-      value: 0
+      propertyPath: m_Parameters.textureMode
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2704824120275040906, guid: 19941e46572630640bcad89012bec10d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 241bcb68fce3c3a489cc5a42d10f2eb1, type: 2}
     - target: {fileID: 2704824120275040906, guid: 19941e46572630640bcad89012bec10d, type: 3}
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
       value: 6

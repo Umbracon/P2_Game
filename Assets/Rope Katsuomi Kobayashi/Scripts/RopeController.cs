@@ -95,7 +95,7 @@ public class RopeController : MonoBehaviour
             yield return new WaitForSeconds(seconds);
         }
 
-        Invoke("ActivateColliders", (0.02f));
+        Invoke(nameof(ActivateColliders), 0.06f);
     }
 
     void CountSplines()
