@@ -8,6 +8,9 @@ public class MenuController : MonoBehaviour
     [SerializeField]
     GameObject output;
 
+    [SerializeField]
+    Animator animator;
+
     TextMeshProUGUI textField;
 
     bool cooldown = false;
@@ -16,11 +19,19 @@ public class MenuController : MonoBehaviour
     {
         textField = output.GetComponent<TextMeshProUGUI>();
     }
-
-    public void StartGame()
+    
+    public void StartGame() 
     {
+        StartCoroutine(LoadLevel("Tree Of Life"));
+    }
 
-        SceneManager.LoadSceneAsync("Tree Of Life");
+    IEnumerator LoadLevel(string name)
+    {
+        animator.SetTrigger("Proceed");
+
+        yield return new WaitForSeconds(2.0f);
+
+        SceneManager.LoadSceneAsync(name);
     }
 
     public void ShowPoliteError(int errorIndex)
@@ -55,9 +66,14 @@ public class MenuController : MonoBehaviour
             yield return new WaitForSeconds(0.04f);
         }
 
-        yield return new WaitForSeconds(1.6f);
+        yield return new WaitForSeconds(0.8f);
 
         textField.text = "";
         cooldown = false;
+    }
+
+    public void ReturnToMenu() 
+    {
+        StartCoroutine(LoadLevel("Main Menu"));
     }
 }

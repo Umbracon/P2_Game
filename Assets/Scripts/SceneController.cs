@@ -12,7 +12,7 @@ public class SceneController : MonoBehaviour
     {
         if (isLevelCompleted && Input.anyKeyDown) 
         {
-            SceneManager.LoadSceneAsync("Main Menu");
+            FindObjectOfType<MenuController>().ReturnToMenu();
         }
     }
 
