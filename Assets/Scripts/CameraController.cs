@@ -3,8 +3,8 @@ using Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField] float yRotationSpeed;
-    [SerializeField] float zRotationSpeed;
+    [SerializeField] float yRotationSpeed = 0.6f;
+    [SerializeField] float zRotationSpeed = 0.5f;
 
     CinemachineVirtualCamera virtualCamera;
 

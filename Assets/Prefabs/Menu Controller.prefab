@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   output: {fileID: 0}
   animator: {fileID: 0}
+  startGameButton: {fileID: 0}

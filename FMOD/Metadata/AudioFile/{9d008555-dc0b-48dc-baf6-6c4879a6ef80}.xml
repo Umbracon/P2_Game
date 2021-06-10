@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.01.00">
+	<object class="AudioFile" id="{9d008555-dc0b-48dc-baf6-6c4879a6ef80}">
+		<property name="assetPath">
+			<value>ES_Cartoon Bite - SFX Producer.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.33600000000000002</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{ab4c15ca-505f-4837-926d-b1254d9fe233}</destination>
+		</relationship>
+	</object>
+</objects>
