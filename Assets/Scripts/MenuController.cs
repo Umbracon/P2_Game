@@ -19,21 +19,17 @@ public class MenuController : MonoBehaviour
 
     Button button;
 
-    SoundController soundController;
-
     bool cooldown = false;
 
 
     void Awake()
     {
         button = startGameButton.GetComponent<Button>();
-        soundController = FindObjectOfType<SoundController>();
     }
 
     void Start()
     {
         textField = output.GetComponent<TextMeshProUGUI>();
-        button.onClick.AddListener(() => soundController.PlayButtonSound());
     }
     
     public void StartGame() 

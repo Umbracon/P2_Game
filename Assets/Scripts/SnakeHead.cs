@@ -27,8 +27,6 @@ public class SnakeHead : MonoBehaviour
             targetRb.isKinematic = false;
 
             bitten = true;
-
-            FindObjectOfType<SoundController>().PlayBiteSound();
         }
     }
 
