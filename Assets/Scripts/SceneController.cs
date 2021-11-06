@@ -12,7 +12,7 @@ public class SceneController : MonoBehaviour
     {
         if (isLevelCompleted && Input.anyKeyDown) 
         {
-            FindObjectOfType<MenuController>().ReturnToMenu();
+            FindObjectOfType<MenuController>().GameToMainMenu();
         }
     }
 

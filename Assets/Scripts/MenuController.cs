@@ -1,67 +1,42 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField]
-    GameObject output;
+    [SerializeField] Animator animator;
 
-    [SerializeField]
-    Animator animator;
-
-    [SerializeField]
-    GameObject startGameButton;
-
-    TextMeshProUGUI textField;
-
-    Button button;
-
+    [SerializeField] GameObject mainMenuView;
+    [SerializeField] GameObject optionsView;
+    
     bool cooldown = false;
-
-
-    void Awake()
+    
+    public void MainMenuToGame() 
     {
-        button = startGameButton.GetComponent<Button>();
+        StartCoroutine(LoadView("Tree Of Life"));
     }
 
-    void Start()
+    public IEnumerator LoadView(string scene)
     {
-        textField = output.GetComponent<TextMeshProUGUI>();
+        animator.SetTrigger("Scene");
+        yield return new WaitForSeconds(2.0f);
+        
+        SceneManager.LoadSceneAsync(scene);
     }
     
-    public void StartGame() 
+    public IEnumerator LoadView(GameObject from, GameObject to)
     {
-        StartCoroutine(LoadLevel("Tree Of Life"));
-    }
-
-    IEnumerator LoadLevel(string name)
-    {
-        animator.SetTrigger("Proceed");
-
-        yield return new WaitForSeconds(2.0f);
-
-        SceneManager.LoadSceneAsync(name);
-    }
-
-    public void ShowPoliteError(int errorIndex)
-    {
-        if (!cooldown)
-        {
-            switch (errorIndex)
-            {
-                case 1:
-                    StartCoroutine(SpellString("* sorry, I haven't been implemented yet :( *"));
-                    cooldown = true;
-                    break;
-                case 2:
-                    StartCoroutine(SpellString("* ummm, neither have I :((( *"));
-                    cooldown = true;
-                    break;
-            }
-        }
+        animator.SetTrigger("View");
+        yield return new WaitForSeconds(1f);
+        from.SetActive(false);
+        
+        animator.SetTrigger("View");
+        yield return new WaitForSeconds(1f);
+        to.SetActive(true);
     }
 
     public void Quit()
@@ -69,23 +44,18 @@ public class MenuController : MonoBehaviour
         Application.Quit();
     }
 
-    IEnumerator SpellString(string text)
+    public void GameToMainMenu() 
     {
-        for (int i = 0; i < text.Length; i++)
-        {
-            textField.text += text[i];
-
-            yield return new WaitForSeconds(0.04f);
-        }
-
-        yield return new WaitForSeconds(0.8f);
-
-        textField.text = "";
-        cooldown = false;
+        StartCoroutine(LoadView("Main Menu"));
+    }
+    
+    public void MainMenuToOptions() 
+    {
+        StartCoroutine(LoadView(mainMenuView, optionsView));
     }
 
-    public void ReturnToMenu() 
+    public void OptionsToMainMenu()
     {
-        StartCoroutine(LoadLevel("Main Menu"));
+        StartCoroutine(LoadView(optionsView, mainMenuView));
     }
 }
