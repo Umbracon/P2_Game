@@ -5,6 +5,8 @@ public class SceneController : MonoBehaviour
 {
     [HideInInspector]
     public SnakeSpawn uncoiledSnake = null;
+    
+    public bool isCooldownZero = true;
 
     public bool isLevelCompleted = false;
 

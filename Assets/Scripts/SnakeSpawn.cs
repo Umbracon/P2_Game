@@ -1,15 +1,18 @@
+using System.Collections;
 using UnityEngine;
 
 public class SnakeSpawn : MonoBehaviour
 {
     [SerializeField]
     Material hoverMaterial;
-
+    
     Material defaultMaterial;
     SceneController sceneController;
     RopeController snakeSpawnModule;
 
     bool isSnakeUncoiled = false;
+
+    float cooldown = 2.0f;
 
     void Start()
     {
@@ -44,9 +47,21 @@ public class SnakeSpawn : MonoBehaviour
                 uncoiledSnake.isSnakeUncoiled = false;
             }
 
-            StartCoroutine(snakeSpawnModule.UncoilSnake(1f / 60f));
-            isSnakeUncoiled = true;
-            sceneController.uncoiledSnake = this;
+            if (sceneController.isCooldownZero)
+            {
+                sceneController.isCooldownZero = false;
+                Debug.Log("ustawiam cooldown");
+                StartCoroutine(snakeSpawnModule.UncoilSnake(1f / 60f));
+                isSnakeUncoiled = true;
+                sceneController.uncoiledSnake = this;
+                StartCoroutine(ResetCooldown());
+            }
         }
+    }
+
+    IEnumerator ResetCooldown ()
+    {
+        yield return new WaitForSeconds(cooldown);
+        sceneController.isCooldownZero = true;
     }
 }
