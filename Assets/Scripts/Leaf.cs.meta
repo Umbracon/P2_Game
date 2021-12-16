@@ -3,7 +3,9 @@ guid: 075a8b318dcaf6f4cb804f3cdbc515ce
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - hoverMaterial: {fileID: 2100000, guid: 6cf1fe615f2863a48a897ffe7a72f825, type: 2}
+  - snakeRenderer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
