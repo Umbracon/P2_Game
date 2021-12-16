@@ -1,8 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class RopeController : MonoBehaviour
+public class SnakeRenderer : MonoBehaviour
 {
+    public bool isUncoiled = false;
+
+    
     [SerializeField]
     GameObject fragmentPrefab;
 
@@ -14,6 +17,8 @@ public class RopeController : MonoBehaviour
 
     [SerializeField]
     Vector3 interval = new Vector3(0f, 0f, 0.25f);
+
+    LineRenderer lineRenderer;
 
     GameObject[] fragments;
 
@@ -33,6 +38,8 @@ public class RopeController : MonoBehaviour
 
     void Start()
     {
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.enabled = false;
         fragments = new GameObject[fragmentCount];
 
         position = transform.position;
@@ -74,8 +81,8 @@ public class RopeController : MonoBehaviour
         }
     }
 
-    public IEnumerator CoilSnake(float seconds)
-    {
+    public IEnumerator CoilSnake(float seconds) {
+        isUncoiled = false;
         for (var i = 0; i < fragmentCount; i++)
         {
             fragments[i].GetComponent<SphereCollider>().enabled = false;
@@ -84,10 +91,12 @@ public class RopeController : MonoBehaviour
 
             yield return new WaitForSeconds(seconds);
         }
+        lineRenderer.enabled = false;
     }
 
-    public IEnumerator UncoilSnake(float seconds)
-    {
+    public IEnumerator UncoilSnake(float seconds) {
+        isUncoiled = true;
+        lineRenderer.enabled = true;
         for (var i = 0; i < fragmentCount; i++)
         {
             fragments[i].GetComponent<Rigidbody>().isKinematic = false;
@@ -115,8 +124,6 @@ public class RopeController : MonoBehaviour
 
     void DrawLines()
     {
-        var lineRenderer = GetComponent<LineRenderer>();
-
         for (var i = 0; i < fragmentCount; i++)
         {
             var position = fragments[i].transform.position;

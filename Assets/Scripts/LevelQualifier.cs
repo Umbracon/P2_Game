@@ -5,11 +5,11 @@ public class LevelQualifier : MonoBehaviour {
     [SerializeField] GameObject panel;
 
     Rigidbody rb;
-    SceneController sceneController;
+    Snake snake;
 
     void Start()
     {
-        sceneController = FindObjectOfType<SceneController>();
+        snake = FindObjectOfType<Snake>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -20,11 +20,11 @@ public class LevelQualifier : MonoBehaviour {
     private void OnTriggerStay(Collider other) 
     {
         if (rb.velocity.magnitude <= minVelocityMagnitude && 
-            !sceneController.isLevelCompleted && 
+            !snake.isLevelCompleted && 
             other.CompareTag("Player")) 
         {           
             panel.SetActive(true);
-            sceneController.isLevelCompleted = true;
+            snake.isLevelCompleted = true;
         }
     }
 }
