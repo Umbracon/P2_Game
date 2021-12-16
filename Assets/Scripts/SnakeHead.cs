@@ -1,24 +1,20 @@
 using UnityEngine;
 
-public class SnakeHead : MonoBehaviour
-{
+public class SnakeHead : MonoBehaviour {
     FixedJoint joint;
     Rigidbody targetRb;
 
     bool bitten;
 
-    void Awake()
-    {
+    void Awake() {
         var rb = gameObject.GetComponent<Rigidbody>();
         rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
         bitten = false;
     }
 
-    void OnCollisionEnter(Collision collision)
-    {
-        if ((collision.transform.CompareTag("Attachable") || collision.transform.CompareTag("Player")) && !bitten)
-        { 
+    void OnCollisionEnter(Collision collision) {
+        if ((collision.transform.CompareTag("Attachable") || collision.transform.CompareTag("Player")) && !bitten) {
             FixedJoint[] joints = gameObject.GetComponentsInChildren<FixedJoint>();
             joint = joints[1];
             joint.connectedBody = collision.transform.GetComponent<Rigidbody>();
@@ -27,15 +23,13 @@ public class SnakeHead : MonoBehaviour
             targetRb.isKinematic = false;
 
             bitten = true;
-            
-        FindObjectOfType<SoundController>().PlayBiteSound();
+
+            FindObjectOfType<SoundController>().PlayBiteSound();
         }
     }
 
-    private void Update()
-    {
-        if (Input.GetMouseButtonDown(1) && bitten) 
-        {
+    private void Update() {
+        if (Input.GetMouseButtonDown(1) && bitten) {
             joint.connectedBody = null;
 
             bitten = false;

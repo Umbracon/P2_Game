@@ -7,25 +7,20 @@ public class LevelQualifier : MonoBehaviour {
     Rigidbody rb;
     Snake snake;
 
-    void Start()
-    {
+    void Start() {
         snake = FindObjectOfType<Snake>();
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-            rb = other.GetComponent<Rigidbody>();
+    private void OnTriggerEnter(Collider other) {
+        rb = other.GetComponent<Rigidbody>();
     }
 
-    private void OnTriggerStay(Collider other) 
-    {
-        if (rb.velocity.magnitude <= minVelocityMagnitude && 
-            !snake.isLevelCompleted && 
-            other.CompareTag("Player")) 
-        {           
+    private void OnTriggerStay(Collider other) {
+        if (rb.velocity.magnitude <= minVelocityMagnitude &&
+            !snake.isLevelCompleted &&
+            other.CompareTag("Player")) {
             panel.SetActive(true);
             snake.isLevelCompleted = true;
         }
     }
 }
-

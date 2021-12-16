@@ -27,7 +27,7 @@ public class Leaf : MonoBehaviour {
         if (!snake.isCoolingDown)
             UncoilSnake();
     }
-    
+
     void UncoilSnake() {
         StartCoroutine(snakeRenderer.UncoilSnake(1f / 60f));
         snake.leafWithCurrentlyUncoiledSnake = this;

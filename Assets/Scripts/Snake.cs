@@ -20,6 +20,7 @@ public class Snake : MonoBehaviour {
     public void StartCoolDownCoroutine() {
         StartCoroutine("CoolDownCoroutine");
     }
+
     IEnumerator CoolDownCoroutine() {
         var cooldown = 2.0f;
         isCoolingDown = true;

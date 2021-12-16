@@ -1,27 +1,17 @@
 using System.Collections;
 using UnityEngine;
 
-public class SnakeRenderer : MonoBehaviour
-{
+public class SnakeRenderer : MonoBehaviour {
     public bool isUncoiled = false;
 
-    
-    [SerializeField]
-    GameObject fragmentPrefab;
 
-    [SerializeField]
-    GameObject junctionPrefab;
-
-    [SerializeField]
-    int fragmentCount = 80;
-
-    [SerializeField]
-    Vector3 interval = new Vector3(0f, 0f, 0.25f);
+    [SerializeField] GameObject fragmentPrefab;
+    [SerializeField] GameObject junctionPrefab;
+    [SerializeField] int fragmentCount = 80;
+    [SerializeField] Vector3 interval = new Vector3(0f, 0f, 0.25f);
 
     LineRenderer lineRenderer;
-
     GameObject[] fragments;
-
     Vector3 position;
 
     float[] xPositions;
@@ -36,8 +26,7 @@ public class SnakeRenderer : MonoBehaviour
 
     IEnumerator currCoroutine;
 
-    void Start()
-    {
+    void Start() {
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
         fragments = new GameObject[fragmentCount];
@@ -50,29 +39,23 @@ public class SnakeRenderer : MonoBehaviour
         currCoroutine = CoilSnake(0f);
         StartCoroutine(currCoroutine);
     }
-
-
-    void LateUpdate()
-    {
+    
+    void LateUpdate() {
         DrawLines();
     }
-
-    void InstantiateFragments()
-    {
-        for (var i = 0; i < fragmentCount; i++)
-        {
+    
+    void InstantiateFragments() {
+        for (var i = 0; i < fragmentCount; i++) {
             fragments[i] = Instantiate(fragmentPrefab, position, Quaternion.identity);
             fragments[i].transform.SetParent(transform);
 
             var joint = fragments[i].GetComponent<FixedJoint>();
 
-            if (i > 0)
-            {
+            if (i > 0) {
                 joint.connectedBody = fragments[i - 1].GetComponent<Rigidbody>();
             }
 
-            if (i == fragmentCount - 1)
-            {
+            if (i == fragmentCount - 1) {
                 fragments[i].AddComponent<SnakeHead>();
                 AttachHeadJunction(i);
             }
@@ -83,22 +66,21 @@ public class SnakeRenderer : MonoBehaviour
 
     public IEnumerator CoilSnake(float seconds) {
         isUncoiled = false;
-        for (var i = 0; i < fragmentCount; i++)
-        {
+        for (var i = 0; i < fragmentCount; i++) {
             fragments[i].GetComponent<SphereCollider>().enabled = false;
             fragments[i].GetComponent<Rigidbody>().isKinematic = true;
             fragments[i].GetComponent<Rigidbody>().position = transform.position;
 
             yield return new WaitForSeconds(seconds);
         }
+
         lineRenderer.enabled = false;
     }
 
     public IEnumerator UncoilSnake(float seconds) {
         isUncoiled = true;
         lineRenderer.enabled = true;
-        for (var i = 0; i < fragmentCount; i++)
-        {
+        for (var i = 0; i < fragmentCount; i++) {
             fragments[i].GetComponent<Rigidbody>().isKinematic = false;
 
             yield return new WaitForSeconds(seconds);
@@ -107,8 +89,7 @@ public class SnakeRenderer : MonoBehaviour
         Invoke(nameof(ActivateColliders), 0.06f);
     }
 
-    void CountSplines()
-    {
+    void CountSplines() {
         var lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.positionCount = (fragmentCount - 1) * splineFactor + 1;
 
@@ -122,37 +103,31 @@ public class SnakeRenderer : MonoBehaviour
     }
 
 
-    void DrawLines()
-    {
-        for (var i = 0; i < fragmentCount; i++)
-        {
+    void DrawLines() {
+        for (var i = 0; i < fragmentCount; i++) {
             var position = fragments[i].transform.position;
             xPositions[i] = position.x;
             yPositions[i] = position.y;
             zPositions[i] = position.z;
         }
 
-        for (var i = 0; i < (fragmentCount - 1) * splineFactor + 1; i++)
-        {
+        for (var i = 0; i < (fragmentCount - 1) * splineFactor + 1; i++) {
             lineRenderer.SetPosition(i, new Vector3(
-                splineX.GetValue(i / (float)splineFactor),
-                splineY.GetValue(i / (float)splineFactor),
-                splineZ.GetValue(i / (float)splineFactor)));
+                splineX.GetValue(i / (float) splineFactor),
+                splineY.GetValue(i / (float) splineFactor),
+                splineZ.GetValue(i / (float) splineFactor)));
         }
     }
 
-    void AttachHeadJunction(int parentIndex)
-    {
+    void AttachHeadJunction(int parentIndex) {
         var parentTransform = fragments[parentIndex].transform;
         var junction = Instantiate(junctionPrefab, position, Quaternion.identity);
 
         junction.transform.SetParent(parentTransform);
     }
 
-    void ActivateColliders() 
-    {
-        for (var i = 0; i < fragmentCount; i++)
-        {
+    void ActivateColliders() {
+        for (var i = 0; i < fragmentCount; i++) {
             fragments[i].GetComponent<SphereCollider>().enabled = true;
         }
     }
