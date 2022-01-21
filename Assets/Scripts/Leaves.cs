@@ -1,24 +1,26 @@
 using UnityEngine;
 
 public class Leaves : MonoBehaviour {
-    [SerializeField] Material hoverMaterial;
-    Material defaultMaterial;
+    [SerializeField] MaterialManager materialManager;
     Snake snake;
+    MeshRenderer meshRenderer;
+    
     public SnakeRenderer snakeRenderer;
-
-
+    
     void Start() {
         snakeRenderer = GetComponentInChildren<SnakeRenderer>();
         snake = FindObjectOfType<Snake>();
-        defaultMaterial = GetComponent<MeshRenderer>().material;
+        meshRenderer = GetComponent<MeshRenderer>();
     }
 
     void OnMouseOver() {
-        GetComponent<MeshRenderer>().material = hoverMaterial;
+        if(!snake.isCoolingDown) 
+            materialManager.ChangeLeavesMaterial(meshRenderer, MaterialManager.LeavesMaterial.Hovered);
     }
 
     void OnMouseExit() {
-        GetComponent<MeshRenderer>().material = defaultMaterial;
+        if(!snake.isCoolingDown)
+            materialManager.ChangeLeavesMaterial(meshRenderer, MaterialManager.LeavesMaterial.Default);
     }
 
     void OnMouseDown() {

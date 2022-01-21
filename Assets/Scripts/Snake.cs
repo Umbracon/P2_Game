@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Snake : MonoBehaviour {
+    [SerializeField] MaterialManager materialManager;
     [HideInInspector] public Leaves leafWithCurrentlyUncoiledSnake;
     public bool isCoolingDown = false;
     public bool isLevelCompleted = false;
@@ -18,18 +19,26 @@ public class Snake : MonoBehaviour {
     }
 
     public void StartCoolDownCoroutine() {
-        StartCoroutine("CoolDownCoroutine");
+        StartCoroutine(nameof(CoolDownCoroutine));
     }
 
     IEnumerator CoolDownCoroutine() {
         var cooldown = 2.0f;
         isCoolingDown = true;
+        ChangeAllLeavesMaterial(MaterialManager.LeavesMaterial.Cooldown);
         yield return new WaitForSeconds(cooldown);
         isCoolingDown = false;
+        ChangeAllLeavesMaterial(MaterialManager.LeavesMaterial.Default);
     }
 
     public void CoilCurrentSnakeIfAny() {
         if (leafWithCurrentlyUncoiledSnake != null)
             StartCoroutine(leafWithCurrentlyUncoiledSnake.snakeRenderer.CoilSnake(1f / 60f));
+    }
+
+    void ChangeAllLeavesMaterial(MaterialManager.LeavesMaterial leavesMaterial) {
+        foreach (var leaves in FindObjectsOfType<Leaves>()) {
+            materialManager.ChangeLeavesMaterial(leaves.GetComponent<MeshRenderer>(), leavesMaterial);
+        }
     }
 }

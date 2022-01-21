@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class SnakeRenderer : MonoBehaviour {
     public bool isUncoiled = false;
-
-
+    
     [SerializeField] GameObject fragmentPrefab;
     [SerializeField] GameObject junctionPrefab;
     [SerializeField] int fragmentCount = 80;
