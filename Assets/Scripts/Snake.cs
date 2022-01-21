@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Snake : MonoBehaviour {
-    [HideInInspector] public Leaf leafWithCurrentlyUncoiledSnake;
+    [HideInInspector] public Leaves leafWithCurrentlyUncoiledSnake;
     public bool isCoolingDown = false;
     public bool isLevelCompleted = false;
 

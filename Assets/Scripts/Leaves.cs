@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Leaf : MonoBehaviour {
+public class Leaves : MonoBehaviour {
     [SerializeField] Material hoverMaterial;
     Material defaultMaterial;
     Snake snake;
