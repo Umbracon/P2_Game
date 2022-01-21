@@ -41,10 +41,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2704824120275040905}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10d5073a0c3633c42a910836fe57061c, type: 3}
+  m_Script: {fileID: 11500000, guid: 893c1af87b074a547a3a608b9300ddd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isUncoiled: 0
   fragmentPrefab: {fileID: 5139500297769546053, guid: 929a4535f798c8d4b845af50d99cc01f, type: 3}
+  junctionPrefab: {fileID: 0}
   fragmentCount: 80
   interval: {x: 0, y: 0, z: 0.25}
 --- !u!120 &2704824120275040906

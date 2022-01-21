@@ -21,8 +21,6 @@ public class CameraController : MonoBehaviour {
         scroll = Input.mouseScrollDelta.y;
         
         transform.rotation = Quaternion.Euler(0, yRotation, Mathf.Clamp(zRotation, zRotationLimit * -1, zRotationLimit) );
-        
-        Debug.Log(Time.deltaTime);
     }
     /*void Update() {
         horizontal = Input.GetAxis("Horizontal");
