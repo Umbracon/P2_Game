@@ -23,7 +23,7 @@ public class SnakeRenderer : MonoBehaviour {
 
     int splineFactor = 4;
 
-    IEnumerator currCoroutine;
+    IEnumerator currentCoroutine;
 
     void Start() {
         lineRenderer = GetComponent<LineRenderer>();
@@ -35,8 +35,8 @@ public class SnakeRenderer : MonoBehaviour {
         InstantiateFragments();
         CountSplines();
 
-        currCoroutine = CoilSnake(0f);
-        StartCoroutine(currCoroutine);
+        currentCoroutine = CoilSnake(0f);
+        StartCoroutine(currentCoroutine);
     }
     
     void LateUpdate() {

@@ -5,8 +5,8 @@ using UnityEngine.SceneManagement;
 public class Snake : MonoBehaviour {
     [SerializeField] MaterialManager materialManager;
     [HideInInspector] public Leaves leafWithCurrentlyUncoiledSnake;
-    public bool isCoolingDown = false;
-    public bool isLevelCompleted = false;
+    public bool isCoolingDown;
+    public bool isLevelCompleted;
 
     void Update() {
         if (isLevelCompleted && Input.anyKeyDown) {

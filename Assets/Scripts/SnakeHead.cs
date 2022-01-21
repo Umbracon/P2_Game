@@ -28,7 +28,7 @@ public class SnakeHead : MonoBehaviour {
         }
     }
 
-    private void Update() {
+    void Update() {
         if (Input.GetMouseButtonDown(1) && bitten) {
             joint.connectedBody = null;
 
