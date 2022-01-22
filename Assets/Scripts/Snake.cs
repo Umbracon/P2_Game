@@ -10,7 +10,7 @@ public class Snake : MonoBehaviour {
 
     void Update() {
         if (isLevelCompleted && Input.anyKeyDown) {
-            FindObjectOfType<MenuController>().GameToMainMenu();
+            FindObjectOfType<ViewSwitcher>().GameToMainMenu();
         }
     }
 

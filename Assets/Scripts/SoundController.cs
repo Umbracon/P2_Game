@@ -1,5 +1,8 @@
+using System;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Events;
 
 public class SoundController : MonoBehaviour {
     [SerializeField] AudioSource musicAudioSource;
@@ -11,22 +14,7 @@ public class SoundController : MonoBehaviour {
     [SerializeField] AudioMixer musicAudioMixer;
     [SerializeField] AudioMixer soundEffectsAudioMixer;
 
-    static SoundController controller = null;
-
-    public static SoundController Controller {
-        get { return controller; }
-    }
-
     void Start() {
-        if (controller != null && controller != this) {
-            Destroy(gameObject);
-            return;
-        }
-        else {
-            controller = this;
-        }
-
-        DontDestroyOnLoad(transform.gameObject);
         PlayBackgroundMusic();
     }
 
@@ -51,7 +39,6 @@ public class SoundController : MonoBehaviour {
         }
         else {
             soundEffectsAudioMixer.SetFloat("SoundEffectsMixerVolume", 0f);
-            soundEffectsAudioSource.PlayOneShot(buttonClip);
         }
     }
 
