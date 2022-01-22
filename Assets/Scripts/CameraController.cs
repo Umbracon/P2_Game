@@ -12,12 +12,12 @@ public class CameraController : MonoBehaviour {
     CinemachineVirtualCamera virtualCamera;
     float yRotation;
     float zRotation;
-    float scroll;
     float cameraDistance;
     
     void Start() {
         virtualCamera = GetComponentInChildren<CinemachineVirtualCamera>();
         cameraDistance = virtualCamera.m_Lens.FieldOfView;
+        SetOriginalRotationToRotationVariables();
     }
 
     void Update() {
@@ -47,5 +47,11 @@ public class CameraController : MonoBehaviour {
     }
     void Zoom() {
         virtualCamera.m_Lens.FieldOfView = Mathf.Lerp(virtualCamera.m_Lens.FieldOfView, cameraDistance, cameraDamping * Time.deltaTime);
+    }
+
+    void SetOriginalRotationToRotationVariables() {
+        var angles = transform.eulerAngles;
+        yRotation = angles.y;
+        zRotation = angles.z;
     }
 }
