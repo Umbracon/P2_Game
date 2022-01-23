@@ -6,6 +6,7 @@ public class Leaves : MonoBehaviour {
     MeshRenderer meshRenderer;
 
     public SnakeRenderer snakeRenderer;
+    bool skipUncoiling;
 
     void Start() {
         snakeRenderer = GetComponentInChildren<SnakeRenderer>();
@@ -24,14 +25,23 @@ public class Leaves : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        if (snake.leafWithCurrentlyUncoiledSnake != null) {
+        if (snake.leafWithPreviouslyUncoiledSnake != null && snake.isSnakeUncoiled) {
             snake.CoilCurrentSnakeIfAny();
-            snake.leafWithCurrentlyUncoiledSnake = null;
+            Debug.Log("zwijam");
+            if(snake.leafWithCurrentlyUncoiledSnake != snake.leafWithPreviouslyUncoiledSnake)
+                skipUncoiling = true;
         }
-        else if (
-            !snake.isCoolingDown && !snake.isSnakeUncoiled) {
-            UncoilSnake();
+
+        if (!snake.isSnakeUncoiled || snake.leafWithCurrentlyUncoiledSnake != snake.leafWithPreviouslyUncoiledSnake) {
+            if (!snake.isCoolingDown && !skipUncoiling) {
+                UncoilSnake();
+                Debug.Log("rozwijam");
+            }
         }
+
+        snake.leafWithPreviouslyUncoiledSnake = snake.leafWithCurrentlyUncoiledSnake;
+        skipUncoiling = false;
+
     }
 
     void UncoilSnake() {
