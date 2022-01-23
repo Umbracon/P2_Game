@@ -20,9 +20,8 @@ public class SnakeHead : MonoBehaviour {
     }
 
     void OnCollisionEnter(Collision collision) {
-        if ((collision.transform.CompareTag("Attachable") || collision.transform.CompareTag("Player")) &&
-            !snake.isAppleBitten) {
-            var activeHead = snake.leafWithCurrentlyUncoiledSnake.GetComponentInChildren<SnakeHead>();
+        if (collision.transform.CompareTag("Attachable") && !snake.isAppleBitten) {
+            var activeHead = gameObject.GetComponentInChildren<SnakeHead>();
 
             FixedJoint[] joints = activeHead.GetComponentsInChildren<FixedJoint>();
             joint = joints[1];
