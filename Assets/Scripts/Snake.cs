@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class Snake : MonoBehaviour {
     [SerializeField] MaterialManager materialManager;
     [HideInInspector] public Leaves leafWithCurrentlyUncoiledSnake;
-    [HideInInspector] public Leaves leafWithPreviouslyUncoiledSnake;
     public bool isCoolingDown;
     public bool isLevelCompleted;
     public bool isSnakeUncoiled;

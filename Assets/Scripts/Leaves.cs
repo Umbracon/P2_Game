@@ -5,8 +5,6 @@ public class Leaves : MonoBehaviour {
     Snake snake;
     MeshRenderer meshRenderer;
 
-    bool wasPreviouslyCoiled;
-
     public SnakeRenderer snakeRenderer;
 
     void Start() {
@@ -26,28 +24,18 @@ public class Leaves : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        Debug.Log($"początek: {snake.isSnakeUncoiled}");
-        snake.leafWithCurrentlyUncoiledSnake = this;
-        if (snake.leafWithPreviouslyUncoiledSnake != null && snake.leafWithCurrentlyUncoiledSnake == snake.leafWithPreviouslyUncoiledSnake) {
-            if (snake.isSnakeUncoiled) {
-                snake.CoilCurrentSnakeIfAny();
-               
-                Debug.Log("zwijam");
-            }
+        if (snake.leafWithCurrentlyUncoiledSnake != null) {
+            snake.CoilCurrentSnakeIfAny();
+            snake.leafWithCurrentlyUncoiledSnake = null;
         }
-
-        if (!snake.isCoolingDown && !wasPreviouslyCoiled) {
+        else if (
+            !snake.isCoolingDown && !snake.isSnakeUncoiled) {
             UncoilSnake();
-            Debug.Log("rozwijam");
         }
-
-        wasPreviouslyCoiled = !wasPreviouslyCoiled;
-
-        snake.leafWithPreviouslyUncoiledSnake = this;
-        Debug.Log($"koniec: {snake.isSnakeUncoiled}");
     }
 
     void UncoilSnake() {
+        snake.leafWithCurrentlyUncoiledSnake = this;
         snake.StartCoolDownCoroutine();
         StartCoroutine(snakeRenderer.UncoilSnake(1f / 60f));
     }
