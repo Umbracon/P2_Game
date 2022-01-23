@@ -42,8 +42,7 @@ public class Snake : MonoBehaviour {
             var joints = snakeHead.GetComponentsInChildren<FixedJoint>();
             joints[1].connectedBody = null;
         }
-        if (leafWithCurrentlyUncoiledSnake != null)
-            StartCoroutine(leafWithCurrentlyUncoiledSnake.snakeRenderer.CoilSnake(1f / 60f));
+        StartCoroutine(leafWithCurrentlyUncoiledSnake.snakeRenderer.CoilSnake(1f / 60f));
     }
 
     void ChangeAllLeavesMaterial(MaterialManager.LeavesMaterial leavesMaterial) {
