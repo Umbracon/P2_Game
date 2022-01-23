@@ -1,8 +1,5 @@
-using System;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.Audio;
-using UnityEngine.Events;
 
 public class SoundController : MonoBehaviour {
     [SerializeField] AudioSource musicAudioSource;

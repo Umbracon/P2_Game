@@ -1,38 +1,50 @@
+using System;
 using UnityEngine;
 
 public class SnakeHead : MonoBehaviour {
     FixedJoint joint;
     Rigidbody targetRb;
-
-    bool bitten;
+    Snake snake;
+    SoundController soundController;
 
     void Awake() {
-        var rb = gameObject.GetComponent<Rigidbody>();
-        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+        var sparedObject = DontDestroy.objectToSpare;
+        soundController = sparedObject.GetComponent<SoundController>();
 
-        bitten = false;
+        snake = FindObjectOfType<Snake>();
+
+        var rb = gameObject.GetComponent<Rigidbody>();
+        rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
+        snake.isAppleBitten = false;
     }
 
     void OnCollisionEnter(Collision collision) {
-        if ((collision.transform.CompareTag("Attachable") || collision.transform.CompareTag("Player")) && !bitten) {
-            FixedJoint[] joints = gameObject.GetComponentsInChildren<FixedJoint>();
+        if ((collision.transform.CompareTag("Attachable") || collision.transform.CompareTag("Player")) &&
+            !snake.isAppleBitten) {
+            var activeHead = snake.leafWithCurrentlyUncoiledSnake.GetComponentInChildren<SnakeHead>();
+
+            FixedJoint[] joints = activeHead.GetComponentsInChildren<FixedJoint>();
             joint = joints[1];
             joint.connectedBody = collision.transform.GetComponent<Rigidbody>();
 
             targetRb = collision.gameObject.GetComponent<Rigidbody>();
             targetRb.isKinematic = false;
 
-            bitten = true;
+            snake.isAppleBitten = true;
 
-            FindObjectOfType<SoundController>().PlayBiteSound();
+            soundController.PlayBiteSound();
         }
     }
 
     void Update() {
-        if (Input.GetMouseButtonDown(1) && bitten) {
-            joint.connectedBody = null;
-
-            bitten = false;
+        if (Input.GetMouseButtonDown(1) && snake.isAppleBitten) {
+            DetachApple();
         }
+    }
+
+    public void DetachApple() {
+        joint.connectedBody = null;
+        snake.isAppleBitten = false;
     }
 }

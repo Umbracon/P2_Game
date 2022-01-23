@@ -1,8 +1,10 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SnakeRenderer : MonoBehaviour {
-    public bool isUncoiled = false;
+   
     
     [SerializeField] GameObject fragmentPrefab;
     [SerializeField] GameObject junctionPrefab;
@@ -24,8 +26,12 @@ public class SnakeRenderer : MonoBehaviour {
     int splineFactor = 4;
 
     IEnumerator currentCoroutine;
+    Snake snake;
+    SnakeHead[] heads;
 
     void Start() {
+        snake = FindObjectOfType<Snake>();
+        heads = FindObjectsOfType<SnakeHead>().ToArray();
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
         fragments = new GameObject[fragmentCount];
@@ -62,9 +68,9 @@ public class SnakeRenderer : MonoBehaviour {
             position += interval;
         }
     }
-
+    
     public IEnumerator CoilSnake(float seconds) {
-        isUncoiled = false;
+        snake.isSnakeUncoiled = false;
         for (var i = 0; i < fragmentCount; i++) {
             fragments[i].GetComponent<SphereCollider>().enabled = false;
             fragments[i].GetComponent<Rigidbody>().isKinematic = true;
@@ -72,19 +78,17 @@ public class SnakeRenderer : MonoBehaviour {
 
             yield return new WaitForSeconds(seconds);
         }
-
         lineRenderer.enabled = false;
     }
 
     public IEnumerator UncoilSnake(float seconds) {
-        isUncoiled = true;
+        snake.isSnakeUncoiled = true;
         lineRenderer.enabled = true;
         for (var i = 0; i < fragmentCount; i++) {
             fragments[i].GetComponent<Rigidbody>().isKinematic = false;
 
             yield return new WaitForSeconds(seconds);
         }
-
         Invoke(nameof(ActivateColliders), 0.06f);
     }
 

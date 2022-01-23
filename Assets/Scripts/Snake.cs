@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +8,10 @@ public class Snake : MonoBehaviour {
     [HideInInspector] public Leaves leafWithCurrentlyUncoiledSnake;
     public bool isCoolingDown;
     public bool isLevelCompleted;
+    public bool isSnakeUncoiled;
+    public bool isAppleBitten;
+
+    SnakeHead snakeHead;
 
     void Update() {
         if (isLevelCompleted && Input.anyKeyDown) {
@@ -32,6 +37,11 @@ public class Snake : MonoBehaviour {
     }
 
     public void CoilCurrentSnakeIfAny() {
+        if (isAppleBitten) {
+            snakeHead = leafWithCurrentlyUncoiledSnake.GetComponentInChildren<SnakeHead>();
+            var joints = snakeHead.GetComponentsInChildren<FixedJoint>();
+            joints[1].connectedBody = null;
+        }
         if (leafWithCurrentlyUncoiledSnake != null)
             StartCoroutine(leafWithCurrentlyUncoiledSnake.snakeRenderer.CoilSnake(1f / 60f));
     }
