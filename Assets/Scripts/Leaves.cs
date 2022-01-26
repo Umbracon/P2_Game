@@ -1,12 +1,12 @@
+using Microsoft.Win32.SafeHandles;
 using UnityEngine;
 
 public class Leaves : MonoBehaviour {
     [SerializeField] MaterialManager materialManager;
     Snake snake;
     MeshRenderer meshRenderer;
-
+    
     public SnakeRenderer snakeRenderer;
-    bool skipUncoiling;
 
     void Start() {
         snakeRenderer = GetComponentInChildren<SnakeRenderer>();
@@ -28,20 +28,17 @@ public class Leaves : MonoBehaviour {
         if (snake.leafWithPreviouslyUncoiledSnake != null && snake.isSnakeUncoiled) {
             snake.CoilCurrentSnakeIfAny();
             Debug.Log("zwijam");
-            if(snake.leafWithCurrentlyUncoiledSnake != snake.leafWithPreviouslyUncoiledSnake)
-                skipUncoiling = true;
+
         }
 
         if (!snake.isSnakeUncoiled || snake.leafWithCurrentlyUncoiledSnake != snake.leafWithPreviouslyUncoiledSnake) {
-            if (!snake.isCoolingDown && !skipUncoiling) {
+            if (!snake.isCoolingDown) {
                 UncoilSnake();
                 Debug.Log("rozwijam");
             }
         }
 
         snake.leafWithPreviouslyUncoiledSnake = snake.leafWithCurrentlyUncoiledSnake;
-        skipUncoiling = false;
-
     }
 
     void UncoilSnake() {

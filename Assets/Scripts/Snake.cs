@@ -16,7 +16,7 @@ public class Snake : MonoBehaviour {
 
     void Update() {
         if (isLevelCompleted && Input.anyKeyDown) {
-            FindObjectOfType<ViewSwitcher>().GameToMainMenu();
+            FindObjectOfType<ViewSwitcher>().ToMainMenu();
         }
     }
 
