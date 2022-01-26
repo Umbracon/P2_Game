@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Win32.SafeHandles;
 using UnityEngine;
 
@@ -25,24 +26,28 @@ public class Leaves : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        if (snake.leafWithPreviouslyUncoiledSnake != null && snake.isSnakeUncoiled) {
+        
+        if (snake.isSnakeUncoiled) {
             snake.CoilCurrentSnakeIfAny();
-            Debug.Log("zwijam");
-
+            snake.isSnakeUncoiled = false;
+            snake.snakeBehaviourQueue.Enqueue("I was coiled!");
+        }
+        else {
+            UncoilSnake();
+            snake.snakeBehaviourQueue.Enqueue("I was uncoiled, because no other snake is uncoiled!");
+        }
+        
+        snake.currentlyClickedLeaves = this;
+        
+        if(snake.currentlyClickedLeaves != snake.previouslyClickedLeaves && snake.previouslyClickedLeaves != null) {
+            UncoilSnake();
+            snake.snakeBehaviourQueue.Enqueue("I was uncoiled, because it was not from these leaves I was summoned!");
         }
 
-        if (!snake.isSnakeUncoiled || snake.leafWithCurrentlyUncoiledSnake != snake.leafWithPreviouslyUncoiledSnake) {
-            if (!snake.isCoolingDown) {
-                UncoilSnake();
-                Debug.Log("rozwijam");
-            }
-        }
-
-        snake.leafWithPreviouslyUncoiledSnake = snake.leafWithCurrentlyUncoiledSnake;
+        snake.previouslyClickedLeaves = snake.currentlyClickedLeaves;
     }
 
     void UncoilSnake() {
-        snake.leafWithCurrentlyUncoiledSnake = this;
         snake.StartCoolDownCoroutine();
         StartCoroutine(snakeRenderer.UncoilSnake(1f / 60f));
     }

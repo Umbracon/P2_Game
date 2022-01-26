@@ -1,18 +1,26 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Snake : MonoBehaviour {
     [SerializeField] MaterialManager materialManager;
-    [HideInInspector] public Leaves leafWithCurrentlyUncoiledSnake;
-    [HideInInspector] public Leaves leafWithPreviouslyUncoiledSnake;
+    [HideInInspector] public Leaves currentlyClickedLeaves;
+    [HideInInspector] public Leaves previouslyClickedLeaves;
     public bool isCoolingDown;
     public bool isLevelCompleted;
     public bool isSnakeUncoiled;
     public bool isAppleBitten;
 
     SnakeHead snakeHead;
+    
+    public Queue<string> snakeBehaviourQueue;
+
+    void Start() {
+        snakeBehaviourQueue = new Queue<string>();
+    }
 
     void Update() {
         if (isLevelCompleted && Input.anyKeyDown) {
@@ -39,11 +47,11 @@ public class Snake : MonoBehaviour {
 
     public void CoilCurrentSnakeIfAny() {
         if (isAppleBitten) {
-            snakeHead = leafWithCurrentlyUncoiledSnake.GetComponentInChildren<SnakeHead>();
+            snakeHead = currentlyClickedLeaves.GetComponentInChildren<SnakeHead>();
             var joints = snakeHead.GetComponentsInChildren<FixedJoint>();
             joints[1].connectedBody = null;
         }
-        StartCoroutine(leafWithCurrentlyUncoiledSnake.snakeRenderer.CoilSnake(1f / 60f));
+        StartCoroutine(currentlyClickedLeaves.snakeRenderer.CoilSnake(1f / 60f));
     }
 
     void ChangeAllLeavesMaterial(MaterialManager.LeavesMaterial leavesMaterial) {
