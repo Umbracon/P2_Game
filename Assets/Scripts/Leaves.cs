@@ -39,7 +39,7 @@ public class Leaves : MonoBehaviour {
         
         snake.currentlyClickedLeaves = this;
         
-        if(snake.currentlyClickedLeaves != snake.previouslyClickedLeaves && snake.previouslyClickedLeaves != null) {
+        if(snake.previouslyClickedLeaves != null && snake.currentlyClickedLeaves != snake.previouslyClickedLeaves) {
             UncoilSnake();
             snake.snakeBehaviourQueue.Enqueue("I was uncoiled, because it was not from these leaves I was summoned!");
         }
