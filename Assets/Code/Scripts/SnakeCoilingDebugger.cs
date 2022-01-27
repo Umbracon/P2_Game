@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "SnakeCoilingDebugger", menuName = "ScriptableObjects/SnakeCoilingDebugger")]
+[CreateAssetMenu(fileName = "SnakeCoilingDebugger", menuName = "Code/ScriptableObjects/SnakeCoilingDebugger")]
 public class SnakeCoilingDebugger : ScriptableObject {
     [TextArea(6,30)] public string whatDoesTheSnakeDo;
     Snake snake;
