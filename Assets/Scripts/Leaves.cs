@@ -6,7 +6,7 @@ public class Leaves : MonoBehaviour {
     [SerializeField] MaterialManager materialManager;
     Snake snake;
     MeshRenderer meshRenderer;
-    
+
     public SnakeRenderer snakeRenderer;
 
     void Start() {
@@ -26,20 +26,21 @@ public class Leaves : MonoBehaviour {
     }
 
     void OnMouseDown() {
-        
         if (snake.isSnakeUncoiled) {
             snake.CoilCurrentSnakeIfAny();
             snake.isSnakeUncoiled = false;
             snake.snakeBehaviourQueue.Enqueue("I was coiled!");
         }
-        else {
+        else if (snake.isCoolingDown == false) {
             UncoilSnake();
             snake.snakeBehaviourQueue.Enqueue("I was uncoiled, because no other snake is uncoiled!");
         }
-        
+
         snake.currentlyClickedLeaves = this;
-        
-        if(snake.previouslyClickedLeaves != null && snake.currentlyClickedLeaves != snake.previouslyClickedLeaves) {
+
+        if (snake.previouslyClickedLeaves != null &&
+            snake.isCoolingDown == false &&
+            snake.currentlyClickedLeaves != snake.previouslyClickedLeaves) {
             UncoilSnake();
             snake.snakeBehaviourQueue.Enqueue("I was uncoiled, because it was not from these leaves I was summoned!");
         }
