@@ -2,6 +2,8 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 [CreateAssetMenu(fileName = "SnakeCoilingDebugger", menuName = "Code/ScriptableObjects/SnakeCoilingDebugger")]
 public class SnakeCoilingDebugger : ScriptableObject {
     [TextArea(6,30)] public string whatDoesTheSnakeDo;
@@ -38,3 +40,4 @@ public class SnakeCoilingDebuggerEditor : Editor {
         }
     }
 }
+#endif
